@@ -1,5 +1,8 @@
 const { Error } = require("sequelize");
 const database = require("../models");
+const { compare } = require("bcryptjs");
+const { sign } = require("jsonwebtoken");
+const jsonSecret = require("../config/jsonSecret");
 
 class AuthService {
     async criaLogin(dto) {
@@ -15,9 +18,22 @@ class AuthService {
                 throw new Error("Email não cadastrado");
             }
     
-            return usuario;
+            const senhasIguais = await compare(dto.senha, usuario.senha);
+
+            if (!senhasIguais) {
+                throw new Error("Usuário ou senha incorreta");
+            } 
+    
+            const accessToken = sign({
+                id: usuario.id,
+                email: usuario.email
+            }, jsonSecret.secret, {
+                expiresIn: 43200
+            });
+    
+            return { accessToken };
         } catch (error) {
-            throw new Error("Erro ao tentar fazer o login do usuário");
+            throw new Error("Erro ao tentar logar usuário")
         }
     }
 }
