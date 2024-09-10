@@ -70,7 +70,7 @@ class UsuarioService {
 
         try {
             const senhaHash = await hash(dto.senha, 8);
-            const usuarioAtualizado = database.usuarios.create({
+            const usuarioAtualizado = await database.usuarios.create({
                 id: uuid.v4(),
                 nome: dto.nome,
                 email: dto.email,
