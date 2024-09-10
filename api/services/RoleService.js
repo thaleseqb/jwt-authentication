@@ -74,7 +74,7 @@ class RoleService {
             });
 
         } catch (error) {
-            throw new Error("Erro ao tentar excluir Role");
+            throw new Error(`Erro ao tentar excluir Role: ${error}`);
         }
     }
 }
