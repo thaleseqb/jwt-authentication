@@ -6,6 +6,9 @@ const jsonSecret = require("../config/jsonSecret");
 
 class AuthService {
     async criaLogin(dto) {
+
+        console.log(jsonSecret.secret)
+
         try {
             const usuario = await database.usuarios.findOne({
                 attributes: ["id", "email", "senha"],
@@ -33,7 +36,7 @@ class AuthService {
     
             return { accessToken };
         } catch (error) {
-            throw new Error("Erro ao tentar logar usuário")
+            throw new Error(`Erro ao tentar logar usuário: ${error}`);
         }
     }
 }
