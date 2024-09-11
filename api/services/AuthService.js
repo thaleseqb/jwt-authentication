@@ -6,9 +6,6 @@ const jsonSecret = require("../config/jsonSecret");
 
 class AuthService {
     async criaLogin(dto) {
-
-        console.log(jsonSecret.secret)
-
         try {
             const usuario = await database.usuarios.findOne({
                 attributes: ["id", "email", "senha"],
